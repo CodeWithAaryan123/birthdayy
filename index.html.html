@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Surprise!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FFB3C6 0%, #FFDDE1 25%, #E9F1F7 50%, #D8F3F9 75%, #B8F2E6 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      color: #880e4f;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(#ff2e63);
+      transform: rotate(45deg);
+      animation: float 18s linear infinite;
+      filter: drop-shadow(0 0 12px #ff2e63);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0.9;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: #ff2e63;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 12px #ff2e63);
+    }
+
+    .heart::before {
+      top: -35px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -35px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 4s infinite alternate;
+      box-shadow: 0 0 10px 2px white;
+    }
+    @keyframes twinkle {
+      from {opacity: 0.5;}
+      to {opacity: 1;}
+    }
+
+    .container {
+      z-index: 1;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      animation: fadeIn 1s ease-out;
+      margin: 40px 20px 80px;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #e91e63;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin: 25px 0;
+      font-size: 1.2em;
+      text-align: left;
+      padding-left: 10px;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+      background: #fce4ec;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    label:hover {
+      background: #f8bbd0;
+      color: #880e4f;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .btn {
+      background-color: #e91e63;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background-color: #c2185b;
+      transform: scale(1.05);
+    }
+
+    #cinema {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: 999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #video-container {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: black;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #video-container iframe {
+      width: 90vw;
+      height: 50vw;
+      max-height: 90vh;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.4);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cinema {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: none;
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .cinema::before,
+    .cinema::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 15%;
+      background: black;
+      z-index: 11;
+    }
+
+    .cinema::before {
+      top: 0;
+    }
+
+    .cinema::after {
+      bottom: 0;
+    }
+
+    .fade {
+      background: rgba(0, 0, 0, 0.8);
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+      pointer-events: none;
+    }
+
+    .fade.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts">
+    <div class="heart" style="left: 5%; animation-delay: 0s;"></div>
+    <div class="heart" style="left: 20%; animation-delay: 2.5s;"></div>
+    <div class="heart" style="left: 35%; animation-delay: 4s;"></div>
+    <div class="heart" style="left: 50%; animation-delay: 1.2s;"></div>
+    <div class="heart" style="left: 65%; animation-delay: 3.8s;"></div>
+    <div class="heart" style="left: 80%; animation-delay: 6s;"></div>
+    <div class="heart" style="left: 90%; animation-delay: 7.5s;"></div>
+    <div class="heart" style="left: 75%; animation-delay: 5.2s;"></div>
+    <div class="heart" style="left: 40%; animation-delay: 8s;"></div>
+  </div>
+
+  <script>
+    // Add 300 random stars in the background
+    for (let i = 0; i < 300; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(star);
+    }
+  </script>
+
+  <div class="container" id="quiz">
+    <h1>Happy Birthdayyy, My Princessssss!</h1>
+    <p>Answer these cute questions before your surprise 💕</p>
+
+    <div class="question">
+      <p>1. What's your favorite thing to do when we're together?</p>
+      <label><input type="radio" name="q1" /> Laughing</label>
+      <label><input type="radio" name="q1" /> Eating</label>
+      <label><input type="radio" name="q1" /> Watching movie</label>
+    </div>
+
+    <div class="question">
+      <p>2. Your favorite dog breed?</p>
+      <label><input type="radio" name="q2" /> Golden Retriever</label>
+      <label><input type="radio" name="q2" /> Poodle</label>
+      <label><input type="radio" name="q2" /> German Shephard</label>
+    </div>
+
+    <div class="question">
+      <p>3. Your favorite thing about me?</p>
+      <label><input type="radio" name="q3" /> Personality</label>
+      <label><input type="radio" name="q3" /> Tuntun</label>
+    </div>
+
+    <div class="question">
+      <p>4. Our first Date?</p>
+      <label><input type="radio" name="q4" /> May 14th</label>
+      <label><input type="radio" name="q4" /> June 3rd</label>
+      <label><input type="radio" name="q4" /> August 7th</label>
+    </div>
+
+    <div class="question">
+      <p>5. Is this the best Birthday you've ever had yet?</p>
+      <label><input type="radio" name="q5" /> Yes</label>
+      <label><input type="radio" name="q5" /> No</label>
+    </div>
+
+    <div class="question">
+      <p>6. Happy 19thhh my babyyy. Would you like to be surprised?</p>
+      <label><input type="radio" name="q6" /> Yes</label>
+      <label><input type="radio" name="q6" /> YESSS</label>
+    </div>
+
+   <div class="question">
+      <p>7. What am I after 10pm? hehehe</p>
+      <label><input type="radio" name="q7" /> Loveyy doveyy</lab	el>
+      <label><input type="radio" name="q7" /> Angel (yk what angel I'm talking about)</label>
+    </div>
+
+    <button class="btn" onclick="revealSurprise()">Reveal Your Surprise 🎉</button>
+  </div>
+
+  <audio id="lofiMusic" src="https://cdn.pixabay.com/download/audio/2022/04/16/audio_322d9b29f6.mp3?filename=happy-summer-lofi-1574.mp3" autoplay loop></audio>
+
+  <div id="cinema">
+    <h2 style="color:white; font-size:2rem; animation: fadeIn 2s;">Sit tight, your surprise is coming...</h2>
+  </div>
+
+  <div id="video-container" style="display:none;">
+    <iframe 
+      src="https://www.youtube.com/embed/n3-paUPQmVo?autoplay=1&mute=1&rel=0&playsinline=1" 
+      title="Happy Birthday Song" 
+      allow="autoplay" 
+      allowfullscreen 
+      frameborder="0"
+      ></iframe>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    function revealSurprise() {
+      const questions = 7;
+      for (let i = 1; i <= questions; i++) {
+        if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+          alert("Please answer all the questions first!");
+          return;
+        }
+      }
+
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('lofiMusic').pause();
+
+      const cinema = document.getElementById('cinema');
+      cinema.style.display = 'flex';
+
+      setTimeout(() => {
+        cinema.style.display = 'none';
+        const videoContainer = document.getElementById('video-container');
+        videoContainer.style.display = 'flex';
+
+        // Reload iframe src to trigger autoplay in all browsers
+        const iframe = videoContainer.querySelector('iframe');
+        const src = iframe.src;
+        iframe.src = '';
+        setTimeout(() => {
+          iframe.src = src;
+        }, 100);
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
